@@ -1,8 +1,7 @@
 package demo.network;
 import demo.entity.Post;
 import retrofit2.Call;
-import retrofit2.http.GET;
-import retrofit2.http.Path;
+import retrofit2.http.*;
 
 import java.util.List;
 
