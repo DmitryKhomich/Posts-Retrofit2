@@ -18,17 +18,18 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                // Запустите ваше приложение
+                // Запуск агента SSH
                 sshagent(credentials: ['credsToDmytroServPrivate']) {
                     sh """
+                    # Копирование JAR-файла на удаленный сервер
                     scp /var/lib/jenkins/workspace/retrofit/target/Posts-Retrofit2-0.0.1.jar root@188.166.146.75:~/javaApps
-                    ssh root@188.166.146.75 "nohup java -jar /root/javaApps/Posts-Retrofit2-0.0.1.jar &"
+
+                    # Запуск JAR-файла на удаленном сервере
+                    ssh root@188.166.146.75 "nohup java -jar /root/javaApps/Posts-Retrofit2-0.0.1.jar > /root/javaApps/app.log 2>&1 &"
                     """
                 }
-            }
-        }
-        stage('Run Application') {
-            steps {
+
+                // Проверка статуса выполнения приложения
                 script {
                     def appOutput = sh(script: 'java -jar /root/javaApps/Posts-Retrofit2-0.0.1.jar', returnStatus: true)
                     if (appOutput == 0) {
@@ -39,5 +40,3 @@ pipeline {
                 }
             }
         }
-    }
-}
