@@ -27,5 +27,17 @@ pipeline {
                 }
             }
         }
+        stage('Run Application') {
+            steps {
+                script {
+                    def appOutput = bat(script: 'java -jar your-application.jar', returnStatus: true)
+                    if (appOutput == 0) {
+                        currentBuild.result = 'SUCCESS'
+                    } else {
+                        currentBuild.result = 'FAILURE'
+                    }
+                }
+            }
+        }
     }
 }
