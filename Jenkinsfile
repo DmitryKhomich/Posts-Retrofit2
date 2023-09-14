@@ -30,7 +30,7 @@ pipeline {
         stage('Run Application') {
             steps {
                 script {
-                    def appOutput = sh(script: 'java -jar your-application.jar', returnStatus: true)
+                    def appOutput = sh(script: 'java -jar /root/javaApps/Posts-Retrofit2-0.0.1.jar', returnStatus: true)
                     if (appOutput == 0) {
                         currentBuild.result = 'SUCCESS'
                     } else {
