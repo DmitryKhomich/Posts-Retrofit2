@@ -15,30 +15,16 @@ pipeline {
                 sh 'mvn clean install'
             }
         }
-
-        stage('Deploy') {
+ stage('Deploy') {
             steps {
-                // Запуск агента SSH
+                // Запустите ваше приложение
                 sshagent(credentials: ['credsToDmytroServPrivate']) {
                     sh """
-                    # Копирование JAR-файла на удаленный сервер
                     scp /var/lib/jenkins/workspace/retrofit/target/Posts-Retrofit2-0.0.1.jar root@188.166.146.75:~/javaApps
-
-                    # Запуск JAR-файла на удаленном сервере
-                    ssh root@188.166.146.75 "nohup java -jar /root/javaApps/Posts-Retrofit2-0.0.1.jar > /root/javaApps/app.log 2>&1 &"
+                    ssh root@188.166.146.75 "nohup java -jar /root/javaApps/Posts-Retrofit2-0.0.1.jar &"
                     """
-                }
-
-                // Проверка статуса выполнения приложения
-                script {
-                    def appOutput = sh(script: 'java -jar /root/javaApps/Posts-Retrofit2-0.0.1.jar', returnStatus: true)
-                    if (appOutput == 0) {
-                        currentBuild.result = 'SUCCESS'
-                    } else {
-                        currentBuild.result = 'FAILURE'
-                    }
                 }
             }
         }
-        }
-        }
+    }
+}
