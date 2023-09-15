@@ -20,8 +20,8 @@ pipeline {
                 // Запустите ваше приложение
                 sshagent(credentials: ['credsToDmytroServPrivate']) {
                     sh """
-                    scp /var/lib/jenkins/workspace/retrofit/target/Posts-Retrofit2-0.0.1.jar root@188.166.146.75:~/javaApps
-                    ssh root@188.166.146.75 "nohup java -jar /root/javaApps/Posts-Retrofit2-0.0.1.jar &"
+                    scp /var/lib/jenkins/workspace/retrofit/target/Posts-Retrofit2-0.0.2-jar-with-dependencies.jar root@188.166.146.75:~/javaApps
+                    ssh root@188.166.146.75 "nohup java -jar /root/javaApps/Posts-Retrofit2-0.0.2-jar-with-dependencies.jar &"
                     """
                 }
             }
